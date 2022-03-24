@@ -7,7 +7,12 @@ int main(void)
   InitWindow(width, height, "Platformer");
   
   Entity player = createPlayer();
-  Entity grassBlock = createTile(32, 1, (Vector2){4,2}, (Vector2){0,0}, LoadTexture("data/option_2/tiles/tileset_32x32(new).png"));
+  Tileset tileset_32x32;
+  tileset_32x32.texture = LoadTexture("data/option_2/tiles/tileset_32x32(new).png");
+  tileset_32x32.rows = 4;
+  tileset_32x32.columns = 2;
+  tileset_32x32.size = 32;
+  Entity grassBlock = createTile(tileset_32x32, 2, (Vector2){0,0});
   grassBlock.position = (Vector2){100, 100};
   Entity *entities[ENTITIES] = {&player, &grassBlock};
 

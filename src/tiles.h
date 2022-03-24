@@ -2,7 +2,15 @@
 #define TILES_H
 
 #include "entity.h"
+#include <raylib.h>
 
-Entity createTile(int size, int block_scale, Vector2 max, Vector2 target, Texture2D texture);
+typedef struct Tileset {
+  const Texture2D texture;
+  const int rows;
+  const int columns;
+  const int size;
+} Tileset;
+
+Entity createTile(Tileset tileset, float block_scale, Vector2 target_block);
 
 #endif
