@@ -1,25 +1,43 @@
 #include "entity.h"
+#include <raylib.h>
 
-int currentFrame = 0;
-int framesCounter = 0;
-
-void animate(int speed, Rectangle *frameRec, int width)
+void renderDebugLines(Entity entity, Color color)
 {
-  framesCounter++;
-
-  if (framesCounter >= (60 / speed)) {
-    framesCounter = 0;
-    currentFrame++;
-
-    if (currentFrame > 5)
-      currentFrame = 0;
-
-    frameRec->x = (float)currentFrame * width;
-  }
+  if (entity.isFlipped)
+    {
+      DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width*-1, entity.rect.height, color);
+    }
+  else
+    {
+      DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width, entity.rect.height, color);
+    }
 }
 
 void renderEntity(Entity entity)
 {
+  if (entity.isFlipped)
+    {
+      entity.rect.width *= -1;
+    }
+  if (entity.drawDebugLines)
+    {
+     renderDebugLines(entity, GREEN);
+    }
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
-  
+
+void renderEntities(Entity entities[])
+{
+  for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)
+    {
+      renderEntity(entities[i]);
+    }
+}
+
+void unloadEntities(Entity entities[])
+{
+  for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)
+    {
+      UnloadTexture(entities[i].texture);
+    }
+}

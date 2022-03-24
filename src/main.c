@@ -1,34 +1,41 @@
 #include "header.h"
-#include <raylib.h>
 
 int main(void)
 {
   const int width = 1200;
   const int height = 620;
   InitWindow(width, height, "Platformer");
-
+  
   Entity player = createPlayer();
+  Entity grassBlock = createTile(32, 1, (Vector2){4,2}, (Vector2){0,0}, LoadTexture("data/option_2/tiles/tileset_32x32(new).png"));
+  grassBlock.position = (Vector2){100, 100};
+  Entity *entities[ENTITIES] = {&player, &grassBlock};
 
   SetTargetFPS(60);
 
   while (!WindowShouldClose())
-  {
-    float deltaTime = GetFrameTime();
+    {
+      float deltaTime = GetFrameTime();
 
-    // Player
-    animate(4, &player.rect, (float)player.texture.width / player.frames);
-    playerMovement(&player, 250.0, deltaTime);
+      // Player
+      animate(&player);
+      playerMovement(&player, deltaTime);
+      
+      BeginDrawing();
+      
+      DrawRectangleGradientV(0, 0, width, height / 2, BLUE, WHITE);
+      DrawRectangleGradientV(0, height / 2, width, height / 2, WHITE, RED);
+      
+      renderEntity(player);
+      renderEntity(grassBlock);
+      
+      DrawFPS(10, 10);
+      EndDrawing();
+    }
 
-    BeginDrawing();
+  unloadEntities(*entities);
+  unloadAnimationTextures(*animationTextures);
 
-    DrawRectangleGradientV(0, 0, width, height, LIGHTGRAY, WHITE);
-    renderEntity(player);
-
-    DrawFPS(10, 10);
-    EndDrawing();
-  }
-
-  UnloadTexture(player.texture);
   CloseWindow();
   return 0;
 }

@@ -5,6 +5,6 @@
 #include "entity.h"
 
 Entity createPlayer();
-void playerMovement(Entity *player, float speed, float delta);
+void playerMovement(Entity *player, float delta);
 
 #endif
