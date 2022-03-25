@@ -8,4 +8,8 @@ This game was written in C using the raylib library.
 - [ ] Jumping
 - [ ] Collision
 - [ ] Player Attack
+- [ ] Map editor
+- [ ] Windows
 - [ ] Game Idea
+
+# Deadline: April 17 2022
