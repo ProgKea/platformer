@@ -12,10 +12,10 @@ int main(void)
   tileset_32x32.rows = 4;
   tileset_32x32.columns = 2;
   tileset_32x32.size = 32;
-  Entity grassBlock = createTile(tileset_32x32, 0.5, (Vector2){2,0});
+  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){2,0});
   grassBlock.position = (Vector2){(float)width/2-(float)grassBlock.rect.width/2, (float)height/2};
-  Entity grassBlock1 = createTile(tileset_32x32, 0.5, (Vector2){2,0});
-  grassBlock1.position = (Vector2){grassBlock.position.x - grassBlock1.rect.width, (float)height/2};
+  Entity grassBlock1 = createTile(tileset_32x32, 1, (Vector2){0,0});
+  grassBlock1.position = (Vector2){grassBlock.position.x - grassBlock1.rect.width*2, (float)height/2};
   Entity *tiles[TILES] = {&grassBlock, &grassBlock1};
   Entity *entities[ENTITIES] = {&player, *tiles};
 

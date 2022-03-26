@@ -65,6 +65,7 @@ Entity createPlayer()
   player.isFlipped = false;
   player.isOnGround = false;
   player.isJumping = false;
+  player.drawDebugLines = false;
 
   return player;
 }
