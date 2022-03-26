@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#define ENTITIES 3
+#define ENTITIES 1 + TILES
 
 #include <raylib.h>
 #include <stdbool.h>
@@ -16,6 +16,8 @@ typedef struct Entity {
 
   Vector2 velocity;
   float moveSpeed;
+  float gravity;
+  float jumpSpeed;
 
   bool isFlipped;
   bool isOnGround;

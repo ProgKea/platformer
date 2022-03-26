@@ -12,12 +12,10 @@ int main(void)
   tileset_32x32.rows = 4;
   tileset_32x32.columns = 2;
   tileset_32x32.size = 32;
-  Entity grassBlock = createTile(tileset_32x32, 2, (Vector2){0,0});
-  grassBlock.position = (Vector2){(float)width/2, height-100};
-  Entity grassBlock1 = createTile(tileset_32x32, 2, (Vector2){0,0});
-  grassBlock1.position = (Vector2){(float)width/2-grassBlock.rect.width, height-100};
-  Entity *entities[ENTITIES] = {&player, &grassBlock, &grassBlock1};
-  Entity *tiles[TILES] = {&grassBlock, &grassBlock1};
+  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){2,0});
+  grassBlock.position = (Vector2){(float)width/2-(float)grassBlock.rect.width/2, (float)height/2};
+  Entity *tiles[TILES] = {&grassBlock};
+  Entity *entities[ENTITIES] = {&player, *tiles};
 
   SetTargetFPS(60);
 
@@ -26,8 +24,7 @@ int main(void)
     float deltaTime = GetFrameTime();
 
     animate(&player);
-    checkPlayerOnGround(&player, *tiles);
-    playerMovement(&player, deltaTime);
+    playerMovement(&player, deltaTime, *tiles);
 
     BeginDrawing();
 

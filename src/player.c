@@ -2,6 +2,7 @@
 #include "entity.h"
 #include "animation.h"
 #include "tiles.h"
+#include <stdio.h>
 #include <raylib.h>
 
 animationTexture Idle;
@@ -42,6 +43,8 @@ Entity createPlayer()
 
   player.velocity = (Vector2){0.0f, 0.0f};
   player.moveSpeed = 200.0f;
+  player.jumpSpeed = -400.0f;
+  player.gravity = 16.0f;
 
   player.rect.x = 0.0f;
   player.rect.y = 0.0f;
@@ -57,45 +60,67 @@ Entity createPlayer()
   return player;
 }
 
-bool checkPlayerCollision(Entity *player, Entity target)
+void applyGravity(Entity *player, float delta)
 {
-  if (player->position.y + player->rect.height >= target.position.y &&
-      player->position.y + player->rect.height <= target.position.y + target.rect.height &&
-      player->position.x + player->rect.width >= target.position.x &&
-      player->position.x <= target.position.x + target.rect.width)
+  if (!player->isOnGround)
   {
-    return true;
+    player->velocity.y += player->gravity;
   }
-  return false;
 }
 
-void checkPlayerOnGround(Entity *player, Entity *platforms)
+void horizontalMovementCollision(Entity *player, float delta, Entity *tiles)
 {
-  for (int i = 0; i < TILES; i++)
+  player->position.x += player->velocity.x * delta;
+  for (int i = 0; i<TILES; i++)
   {
-    if (checkPlayerCollision(player, platforms[i]))
+    if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
+          (Rectangle){tiles[i].position.x, tiles[i].position.y, tiles[i].rect.width, tiles[i].rect.height}))
     {
-      player->isOnGround = true;
-      player->velocity.y = 0.0f;
-    }
-    else
-    {
-      player->isOnGround = false;
+      if (player->velocity.x > 0)
+      {
+        player->position.x = tiles[i].position.x - player->rect.width;
+      }
+      else if (player->velocity.x < 0)
+      {
+        player->position.x = tiles[i].position.x + tiles[i].rect.width;
+      }
+      player->velocity.x = 0;
     }
   }
 }
 
-void jump(Entity *player, float delta)
+void verticalMovementCollision(Entity *player, float delta, Entity *tiles)
 {
-  if (player->isOnGround)
+  applyGravity(player, delta);
+  player->position.y += player->velocity.y * delta;
+  for (int i = 0; i<TILES; i++)
   {
-    player->isJumping = true;
-    player->position.y -= player->velocity.y * delta;
-    changeAnimation(player, Jump);
+    if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
+          (Rectangle){tiles[i].position.x, tiles[i].position.y, tiles[i].rect.width, tiles[i].rect.height}))
+    {
+      if (player->velocity.y > 0)
+      {
+        player->position.y = tiles[i].position.y - player->rect.height;
+        player->velocity.y = 0;
+      }
+      else if (player->velocity.y < 0)
+      {
+        player->position.y = tiles[i].position.y + tiles[i].rect.height;
+        player->velocity.y = 0;
+      }
+    }
   }
 }
 
-void playerMovement(Entity *player, float delta)
+void jump(Entity *player)
+{
+  player->isJumping = true;
+  player->velocity.y = player->jumpSpeed;
+  changeAnimation(player, Jump);
+}
+
+
+void playerMovement(Entity *player, float delta, Entity *tiles)
 {
   if (IsKeyDown(KEY_A))
   {
@@ -109,21 +134,16 @@ void playerMovement(Entity *player, float delta)
     player->isFlipped = false;
     changeAnimation(player, Walk);
   }
-  else if (IsKeyDown(KEY_SPACE))
-  {
-    jump(player, delta);
-  }
   else
   {
     player->velocity.x = 0.0f;
     changeAnimation(player, Idle);
   }
-
-  if (!player->isOnGround)
+  if (IsKeyPressed(KEY_SPACE))
   {
-    player->velocity.y += GRAVITY;
-    player->position.y += player->velocity.y * delta;
+    jump(player);
   }
 
-  player->position.x += player-> velocity.x * delta;
+  horizontalMovementCollision(player, delta, tiles);
+  verticalMovementCollision(player, delta, tiles);
 }
