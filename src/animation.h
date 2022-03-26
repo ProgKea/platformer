@@ -1,6 +1,6 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
-#define ANIMATIONS 3
+#define ANIMATIONS 4
 
 #include "entity.h"
 
