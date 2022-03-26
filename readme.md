@@ -4,9 +4,9 @@ This game was written in C using the raylib library.
 
 ## TODOS
 
-- [ ] Gravity
-- [ ] Jumping
-- [ ] Collision
+- [X] Gravity
+- [X] Jumping
+- [X] Collision
 - [ ] Player Attack
 - [ ] Map editor
 - [ ] Windows
