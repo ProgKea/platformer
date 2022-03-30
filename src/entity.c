@@ -4,40 +4,40 @@
 void renderDebugLines(Entity entity, Color color)
 {
   if (entity.isFlipped)
-    {
-      DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width*-1, entity.rect.height, color);
-    }
+  {
+    DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width*-1, entity.rect.height, color);
+  }
   else
-    {
-      DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width, entity.rect.height, color);
-    }
+  {
+    DrawRectangleLines(entity.position.x, entity.position.y, entity.rect.width, entity.rect.height, color);
+  }
 }
 
 void renderEntity(Entity entity)
 {
   if (entity.isFlipped)
-    {
-      entity.rect.width *= -1;
-    }
+  {
+    entity.rect.width *= -1;
+  }
   if (entity.drawDebugLines)
-    {
-     renderDebugLines(entity, GREEN);
-    }
+  {
+    renderDebugLines(entity, GREEN);
+  }
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
 
-void renderEntities(Entity entities[])
+void renderEntities(Entity entities[], int count)
 {
-  for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)
-    {
-      renderEntity(entities[i]);
-    }
+  for (int i = 0; i<count; i++)
+  {
+    renderEntity(entities[i]);
+  }
 }
 
 void unloadEntities(Entity entities[])
 {
   for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)
-    {
-      UnloadTexture(entities[i].texture);
-    }
+  {
+    UnloadTexture(entities[i].texture);
+  }
 }

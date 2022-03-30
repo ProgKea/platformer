@@ -2,6 +2,7 @@
 #define HEADER_H
 
 #include <raylib.h>
+#include <stdlib.h>
 
 #include "entity.h"
 #include "animation.h"
