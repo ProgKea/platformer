@@ -26,14 +26,6 @@ void renderEntity(Entity entity)
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
 
-void renderEntities(Entity entities[], int count)
-{
-  for (int i = 0; i<count; i++)
-  {
-    renderEntity(entities[i]);
-  }
-}
-
 void unloadEntities(Entity entities[])
 {
   for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)

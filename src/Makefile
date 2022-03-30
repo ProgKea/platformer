@@ -1,6 +1,6 @@
 CC=gcc
 CC_CROSS=x86_64-w64-mingw32-gcc
-LIBS=-lraylib
+LIBS=-lraylib -lglfw -lrt -lm -ldl -lX11 -lpthread -lxcb -lXau -lXdmcp
 CFLAGS=-Wall -pedantic -Wshadow -Werror
 CFLAGS_CROSS=-mwindows
 CFLAGS_O=-O3 -s
@@ -19,6 +19,9 @@ cross: ${DEPENDENCIES}
 
 release: ${DEPENDENCIES}
 	${CC} ${CFLAGS} ${CFLAGS_O} ../src/*.c -o ${DIR_BUILD}${PROJECT} ${LIBS} && ${CC_CROSS} ${CFLAGS} ${CFLAGS_CROSS} ${CFLAGS_O} ${DEPENDENCIES} -o ${DIR_BUILD}windows/${PROJECT} ${LIBS}
+
+static: ${DEPENDENCIES}
+	${CC} ${CFLAGS} ../src/*.c -o ${DIR_BUILD}${PROJECT} 
 
 run: 
 	make && cd ${DIR_BUILD} && ./${PROJECT}

@@ -8,7 +8,7 @@ This game was written in C using the raylib library.
 - [X] Jumping
 - [X] Collision
 - [ ] Player Attack
-- [ ] Map editor
+- [ ] Read tiled map data
 - [ ] Windows
 - [ ] Game Idea
 

@@ -21,7 +21,7 @@ typedef struct Entity {
 
   bool isFlipped;
   bool isOnGround;
-  bool isJumping;
+  bool allowedToJump;
   bool drawDebugLines;
 } Entity;
 

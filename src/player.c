@@ -64,7 +64,6 @@ Entity createPlayer()
 
   player.isFlipped = false;
   player.isOnGround = false;
-  player.isJumping = false;
   player.drawDebugLines = false;
 
   return player;
@@ -83,21 +82,18 @@ void horizontalMovementCollision(Entity *player, float delta, Entity *tiles[])
   player->position.x += player->velocity.x * delta;
   for (int i = 0; i<TILES; i++)
   {
-    if (tiles[i] != NULL) 
+    if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
+          (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}))
     {
-      if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
-            (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}))
+      if (player->velocity.x > 0)
       {
-        if (player->velocity.x > 0)
-        {
-          player->position.x = tiles[i]->position.x - player->rect.width;
-        }
-        else if (player->velocity.x < 0)
-        {
-          player->position.x = tiles[i]->position.x + tiles[i]->rect.width;
-        }
-        player->velocity.x = 0;
+        player->position.x = tiles[i]->position.x - player->rect.width;
       }
+      else if (player->velocity.x < 0)
+      {
+        player->position.x = tiles[i]->position.x + tiles[i]->rect.width;
+      }
+      player->velocity.x = 0;
     }
   }
 }
@@ -108,21 +104,19 @@ void verticalMovementCollision(Entity *player, float delta, Entity *tiles[])
   player->position.y += player->velocity.y * delta;
   for (int i = 0; i<TILES; i++)
   {
-    if (tiles[i] != NULL)
+    if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
+          (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}) && tiles[i] != NULL)
     {
-      if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
-            (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}) && tiles[i] != NULL)
+      if (player->velocity.y > 0)
       {
-        if (player->velocity.y > 0)
-        {
-          player->position.y = tiles[i]->position.y - player->rect.height;
-          player->velocity.y = 0;
-        }
-        else if (player->velocity.y < 0)
-        {
-          player->position.y = tiles[i]->position.y + tiles[i]->rect.height;
-          player->velocity.y = 0;
-        }
+        player->allowedToJump = true;
+        player->position.y = tiles[i]->position.y - player->rect.height;
+        player->velocity.y = 0;
+      }
+      else if (player->velocity.y < 0)
+      {
+        player->position.y = tiles[i]->position.y + tiles[i]->rect.height;
+        player->velocity.y = 0;
       }
     }
   }
@@ -138,7 +132,7 @@ void verticalMovementCollision(Entity *player, float delta, Entity *tiles[])
 
 void jump(Entity *player)
 {
-  player->isJumping = true;
+  player->allowedToJump = false;
   player->velocity.y = player->jumpSpeed;
 }
 
@@ -161,7 +155,7 @@ void playerMovement(Entity *player, float delta, Entity *tiles[])
     player->velocity.x = 0.0f;
     changeAnimation(player, Idle);
   }
-  if (IsKeyPressed(KEY_SPACE))
+  if (IsKeyPressed(KEY_SPACE) && player->allowedToJump)
   {
     jump(player);
   }
