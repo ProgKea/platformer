@@ -18,7 +18,10 @@ int main(void)
   Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){1,0});
   grassBlock.position = (Vector2){32 * 10, 32 * 15};
 
-  Entity *tiles[TILES] = {&grassBlock};
+  Entity grassBlock2 = createTile(tileset_32x32, 1, (Vector2){1,0});
+  grassBlock2.position = (Vector2){32 * 11, 32 * 15};
+
+  Entity *tiles[TILES] = {&grassBlock, &grassBlock2};
   Entity *entities[ENTITIES] = {&player, *tiles};
 
   SetTargetFPS(60);
@@ -29,6 +32,12 @@ int main(void)
 
     animate(&player);
     playerMovement(&player, deltaTime, tiles);
+
+    if (IsKeyDown(KEY_R))
+    {
+      player.position = (Vector2){32 * 12, 32 * 10};
+      player.velocity = (Vector2){0,0};
+    }
 
     BeginDrawing();
 

@@ -20,8 +20,8 @@ typedef struct Entity {
   float jumpSpeed;
 
   bool isFlipped;
-  bool isOnGround;
   bool allowedToJump;
+  bool allowedToDoubleJump;
   bool drawDebugLines;
 } Entity;
 

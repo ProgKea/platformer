@@ -20,9 +20,6 @@ cross: ${DEPENDENCIES}
 release: ${DEPENDENCIES}
 	${CC} ${CFLAGS} ${CFLAGS_O} ../src/*.c -o ${DIR_BUILD}${PROJECT} ${LIBS} && ${CC_CROSS} ${CFLAGS} ${CFLAGS_CROSS} ${CFLAGS_O} ${DEPENDENCIES} -o ${DIR_BUILD}windows/${PROJECT} ${LIBS}
 
-static: ${DEPENDENCIES}
-	${CC} ${CFLAGS} ../src/*.c -o ${DIR_BUILD}${PROJECT} 
-
 run: 
 	make && cd ${DIR_BUILD} && ./${PROJECT}
 

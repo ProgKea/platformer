@@ -8,6 +8,7 @@
 animationTexture Idle;
 animationTexture Walk;
 animationTexture Jump;
+animationTexture doubleJump;
 animationTexture Fall;
 
 Entity createPlayer()
@@ -32,6 +33,12 @@ Entity createPlayer()
   Jump.frames = 3;
   Jump.speed = 15;
 
+  doubleJump.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_jump_double_anim_strip_3.png");
+  doubleJump.texture.width *= 3;
+  doubleJump.texture.height *= 3;
+  doubleJump.frames = 3;
+  doubleJump.speed = 15;
+
   Fall.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_jump_down_anim_strip_3.png");
   Fall.texture.width *= 3;
   Fall.texture.height *= 3;
@@ -51,7 +58,7 @@ Entity createPlayer()
   player.position.y = 350.0f;
 
   player.velocity = (Vector2){0.0f, 0.0f};
-  player.moveSpeed = 200.0f;
+  player.moveSpeed = 250.0f;
   player.jumpSpeed = -400.0f;
   player.gravity = 16.0f;
 
@@ -63,18 +70,14 @@ Entity createPlayer()
   player.animSpeed = Idle.speed;
 
   player.isFlipped = false;
-  player.isOnGround = false;
-  player.drawDebugLines = false;
+  player.drawDebugLines = true;
 
   return player;
 }
 
 void applyGravity(Entity *player, float delta)
 {
-  if (!player->isOnGround)
-  {
-    player->velocity.y += player->gravity;
-  }
+  player->velocity.y += player->gravity;
 }
 
 void horizontalMovementCollision(Entity *player, float delta, Entity *tiles[])
@@ -94,6 +97,8 @@ void horizontalMovementCollision(Entity *player, float delta, Entity *tiles[])
         player->position.x = tiles[i]->position.x + tiles[i]->rect.width;
       }
       player->velocity.x = 0;
+      player->velocity.y /= 1.25;
+      player->allowedToJump = true;
     }
   }
 }
@@ -126,7 +131,14 @@ void verticalMovementCollision(Entity *player, float delta, Entity *tiles[])
   }
   else if (player->velocity.y < 0)
   {
-    changeAnimation(player, Jump);
+    if (player->allowedToDoubleJump)
+    {
+      changeAnimation(player, Jump);
+    }
+    else
+    {
+      changeAnimation(player, doubleJump);
+    }
   }
 }
 
@@ -155,9 +167,19 @@ void playerMovement(Entity *player, float delta, Entity *tiles[])
     player->velocity.x = 0.0f;
     changeAnimation(player, Idle);
   }
-  if (IsKeyPressed(KEY_SPACE) && player->allowedToJump)
+  if (IsKeyPressed(KEY_SPACE) && (player->allowedToJump || player->allowedToDoubleJump))
   {
-    jump(player);
+    if (player->allowedToJump)
+    {
+      jump(player);
+      player->allowedToJump = false;
+      player->allowedToDoubleJump = true;
+    }
+    else if (player->allowedToDoubleJump)
+    {
+      jump(player);
+      player->allowedToDoubleJump = false;
+    }
   }
   horizontalMovementCollision(player, delta, tiles);
   verticalMovementCollision(player, delta, tiles);

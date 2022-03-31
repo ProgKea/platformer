@@ -1,7 +1,7 @@
 #ifndef TILES_H
 #define TILES_H
 
-#define TILES 1
+#define TILES 2
 
 #include "entity.h"
 #include <raylib.h>

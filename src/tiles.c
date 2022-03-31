@@ -1,4 +1,5 @@
 #include "tiles.h"
+#include <tmx.h>
 
 Entity createTile(Tileset tileset, int blockScale, Vector2 target_block)
 {
@@ -28,9 +29,4 @@ void drawDebugGrid(int width, int height)
   {
     DrawLine(0, i*32, width, i*32, BLACK);
   }
-}
-
-void readMap()
-{
-
 }
