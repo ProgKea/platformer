@@ -9,6 +9,7 @@ const int height = 620;
 int main(void)
 {
   InitWindow(width, height, "Platformer");
+  SetConfigFlags(FLAG_VSYNC_HINT);
 
   Entity player = createPlayer();
 
@@ -23,7 +24,7 @@ int main(void)
   Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
   entities[0] = player;
 
-  SetTargetFPS(60);
+  SetTargetFPS(GetMonitorRefreshRate(0));
 
   while (!WindowShouldClose())
   {
@@ -54,14 +55,10 @@ int main(void)
 
     BeginDrawing();
 
-    DrawRectangleGradientV(0, 0, width, height / 2, BLUE, WHITE);
-    DrawRectangleGradientV(0, height / 2, width, height / 2, WHITE, RED);
+    ClearBackground(BLACK);
 
     renderEntity(player);
-    for (int i = 0; i < tileCount; i++)
-    {
-      renderEntity(tiles[i]);
-    }
+    renderEntities(tiles, tileCount);
 
     DrawFPS(10, 10);
     EndDrawing();

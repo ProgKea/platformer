@@ -5,7 +5,7 @@
 int tileCount = 0;
 int tileLimit = 1000;
 
-Entity createTile(Tileset tileset, int blockScale, Vector2 target_block, Vector2 position)
+Entity createTile(Tileset tileset, float blockScale, Vector2 target_block, Vector2 position)
 {
   Entity tile;
 

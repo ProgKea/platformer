@@ -70,7 +70,7 @@ Entity createPlayer()
   player.animSpeed = Idle.speed;
 
   player.isFlipped = false;
-  player.drawDebugLines = true;
+  player.drawDebugLines = false;
 
   entityCount++;
 
