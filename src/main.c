@@ -1,5 +1,7 @@
+#include "entity.h"
 #include "header.h"
-#include "tiles.h"
+#include <raylib.h>
+#include <stdio.h>
 
 const int width = 1200;
 const int height = 620;
@@ -9,20 +11,17 @@ int main(void)
   InitWindow(width, height, "Platformer");
 
   Entity player = createPlayer();
-  Tileset tileset_32x32;
 
-  tileset_32x32.texture = LoadTexture("data/option_2/tiles/tileset_32x32(new).png");
+  Tileset tileset_32x32;
+  tileset_32x32.texture = LoadTexture("data/sprites/tiles/tileset_32x32(new).png");
   tileset_32x32.rows = 4*3;
   tileset_32x32.columns = 2*3;
 
-  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){1,0});
-  grassBlock.position = (Vector2){32 * 10, 32 * 15};
+  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){1,0}, (Vector2){0,0});
 
-  Entity grassBlock2 = createTile(tileset_32x32, 1, (Vector2){1,0});
-  grassBlock2.position = (Vector2){32 * 11, 32 * 15};
-
-  Entity *tiles[TILES] = {&grassBlock, &grassBlock2};
-  Entity *entities[ENTITIES] = {&player, *tiles};
+  Entity *tiles = MemAlloc(sizeof(Entity) * tileLimit);
+  Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
+  entities[0] = player;
 
   SetTargetFPS(60);
 
@@ -33,10 +32,20 @@ int main(void)
     animate(&player);
     playerMovement(&player, deltaTime, tiles);
 
-    if (IsKeyDown(KEY_R))
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
-      player.position = (Vector2){32 * 12, 32 * 10};
-      player.velocity = (Vector2){0,0};
+      placeBlock(tiles, grassBlock, (Vector2){GetMouseX()/32*32, GetMouseY()/32*32});
+    }
+    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+    {
+      player.position = GetMousePosition();
+      player.velocity.y = 0;
+    }
+    if (IsKeyPressed(KEY_R))
+    {
+      MemFree(tiles);
+      tiles = MemAlloc(sizeof(Entity) * tileLimit);
+      tileCount = 0;
     }
 
     BeginDrawing();
@@ -45,14 +54,17 @@ int main(void)
     DrawRectangleGradientV(0, height / 2, width, height / 2, WHITE, RED);
 
     renderEntity(player);
-    for (int i = 0; i < TILES; i++)
-      renderEntity(*tiles[i]);
+    for (int i = 0; i < tileCount; i++)
+    {
+      renderEntity(tiles[i]);
+    }
 
     DrawFPS(10, 10);
     EndDrawing();
   }
 
-  unloadEntities(*entities);
+  unloadEntities(entities, entityCount);
+  unloadEntities(tiles, tileCount);
   unloadAnimationTextures(*animationTextures);
 
   CloseWindow();

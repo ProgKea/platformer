@@ -1,10 +1,13 @@
 #ifndef TILES_H
 #define TILES_H
 
-#define TILES 2
-
 #include "entity.h"
 #include <raylib.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+extern int tileCount;
+extern int tileLimit;
 
 typedef struct Tileset {
   Texture2D texture;
@@ -12,7 +15,8 @@ typedef struct Tileset {
   int columns;
 } Tileset;
 
-Entity createTile(Tileset tileset, int blockScale, Vector2 target_block);
+Entity createTile(Tileset tileset, int blockScale, Vector2 target_block, Vector2 position);
+void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition);
 void drawDebugGrid(int width, int height);
 
 #endif

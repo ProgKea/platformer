@@ -1,10 +1,11 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#define ENTITIES 1 + TILES
-
 #include <raylib.h>
 #include <stdbool.h>
+#include <stdlib.h>
+
+extern int entityCount;
 
 typedef struct Entity {
   Vector2 position;
@@ -27,7 +28,7 @@ typedef struct Entity {
 
 void animate(Entity *entity);
 void renderEntity(Entity entity);
-void renderEntities(Entity entities[], int count);
-void unloadEntities(Entity entities[]);
+void renderEntities(Entity **entities, int count);
+void unloadEntities(Entity *entities, int count);
 
 #endif

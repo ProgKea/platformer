@@ -1,7 +1,11 @@
 #include "tiles.h"
-#include <tmx.h>
+#include <raylib.h>
+#include <stdbool.h>
 
-Entity createTile(Tileset tileset, int blockScale, Vector2 target_block)
+int tileCount = 0;
+int tileLimit = 1000;
+
+Entity createTile(Tileset tileset, int blockScale, Vector2 target_block, Vector2 position)
 {
   Entity tile;
 
@@ -14,9 +18,36 @@ Entity createTile(Tileset tileset, int blockScale, Vector2 target_block)
   tile.rect.width = (float)tile.texture.width / tileset.rows;
   tile.rect.height = (float)tile.texture.height / tileset.columns;
 
+  tile.position = position;
+
   tile.isFlipped = false;
 
   return tile;
+}
+
+bool blockPosExists(Entity blockArray[], int length, Vector2 srcPos)
+{
+  for (int i = 0; i<length; i++)
+  {
+    if (CheckCollisionPointRec(srcPos, 
+          (Rectangle){
+          blockArray[i].position.x, blockArray[i].position.y,
+          blockArray[i].rect.width, blockArray[i].rect.height}))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition)
+{
+  if (!blockPosExists(tileArray, tileCount, targetPosition) && !(tileCount >= tileLimit))
+  {
+    tile.position = targetPosition;
+    tileArray[tileCount] = tile;
+    tileCount++;
+  }
 }
 
 void drawDebugGrid(int width, int height)

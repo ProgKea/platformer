@@ -1,6 +1,8 @@
 #include "entity.h"
 #include <raylib.h>
 
+int entityCount = 0;
+
 void renderDebugLines(Entity entity, Color color)
 {
   if (entity.isFlipped)
@@ -26,10 +28,15 @@ void renderEntity(Entity entity)
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
 
-void unloadEntities(Entity entities[])
+void renderEntities(Entity **entities, int count)
 {
-  for (int i = 0; i<(int)sizeof(*entities)/sizeof(entities[0]); i++)
+  for (int i = 0; i<count; i++)
   {
-    UnloadTexture(entities[i].texture);
+    renderEntity(*entities[i]);
   }
+}
+
+void unloadEntities(Entity *entities, int count)
+{
+  MemFree(entities);
 }

@@ -15,31 +15,31 @@ Entity createPlayer()
 {
   Entity player;
 
-  Idle.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_idle_anim_strip_4.png");
+  Idle.texture = LoadTexture("data/sprites/herochar sprites(new)/herochar_idle_anim_strip_4.png");
   Idle.texture.width *= 3;
   Idle.texture.height *= 3;
   Idle.frames = 4;
   Idle.speed = 4;
 
-  Walk.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_run_anim_strip_6.png");
+  Walk.texture = LoadTexture("data/sprites/herochar sprites(new)/herochar_run_anim_strip_6.png");
   Walk.texture.width *= 3;
   Walk.texture.height *= 3;
   Walk.frames = 6;
   Walk.speed = 15;
 
-  Jump.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_jump_up_anim_strip_3.png");
+  Jump.texture = LoadTexture("data/sprites/herochar sprites(new)/herochar_jump_up_anim_strip_3.png");
   Jump.texture.width *= 3;
   Jump.texture.height *= 3;
   Jump.frames = 3;
   Jump.speed = 15;
 
-  doubleJump.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_jump_double_anim_strip_3.png");
+  doubleJump.texture = LoadTexture("data/sprites/herochar sprites(new)/herochar_jump_double_anim_strip_3.png");
   doubleJump.texture.width *= 3;
   doubleJump.texture.height *= 3;
   doubleJump.frames = 3;
   doubleJump.speed = 15;
 
-  Fall.texture = LoadTexture("data/option_2/herochar sprites(new)/herochar_jump_down_anim_strip_3.png");
+  Fall.texture = LoadTexture("data/sprites/herochar sprites(new)/herochar_jump_down_anim_strip_3.png");
   Fall.texture.width *= 3;
   Fall.texture.height *= 3;
   Fall.frames = 3;
@@ -72,6 +72,8 @@ Entity createPlayer()
   player.isFlipped = false;
   player.drawDebugLines = true;
 
+  entityCount++;
+
   return player;
 }
 
@@ -80,21 +82,21 @@ void applyGravity(Entity *player, float delta)
   player->velocity.y += player->gravity;
 }
 
-void horizontalMovementCollision(Entity *player, float delta, Entity *tiles[])
+void horizontalMovementCollision(Entity *player, float delta, Entity tiles[])
 {
   player->position.x += player->velocity.x * delta;
-  for (int i = 0; i<TILES; i++)
+  for (int i = 0; i<tileCount; i++)
   {
     if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
-          (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}))
+          (Rectangle){tiles[i].position.x, tiles[i].position.y, tiles[i].rect.width, tiles[i].rect.height}))
     {
       if (player->velocity.x > 0)
       {
-        player->position.x = tiles[i]->position.x - player->rect.width;
+        player->position.x = tiles[i].position.x - player->rect.width;
       }
       else if (player->velocity.x < 0)
       {
-        player->position.x = tiles[i]->position.x + tiles[i]->rect.width;
+        player->position.x = tiles[i].position.x + tiles[i].rect.width;
       }
       player->velocity.x = 0;
       player->velocity.y /= 1.25;
@@ -103,24 +105,24 @@ void horizontalMovementCollision(Entity *player, float delta, Entity *tiles[])
   }
 }
 
-void verticalMovementCollision(Entity *player, float delta, Entity *tiles[])
+void verticalMovementCollision(Entity *player, float delta, Entity tiles[])
 {
   applyGravity(player, delta);
   player->position.y += player->velocity.y * delta;
-  for (int i = 0; i<TILES; i++)
+  for (int i = 0; i<tileCount; i++)
   {
     if (CheckCollisionRecs((Rectangle){player->position.x, player->position.y, player->rect.width, player->rect.height},
-          (Rectangle){tiles[i]->position.x, tiles[i]->position.y, tiles[i]->rect.width, tiles[i]->rect.height}) && tiles[i] != NULL)
+          (Rectangle){tiles[i].position.x, tiles[i].position.y, tiles[i].rect.width, tiles[i].rect.height}) && &tiles[i] != NULL)
     {
       if (player->velocity.y > 0)
       {
         player->allowedToJump = true;
-        player->position.y = tiles[i]->position.y - player->rect.height;
+        player->position.y = tiles[i].position.y - player->rect.height;
         player->velocity.y = 0;
       }
       else if (player->velocity.y < 0)
       {
-        player->position.y = tiles[i]->position.y + tiles[i]->rect.height;
+        player->position.y = tiles[i].position.y + tiles[i].rect.height;
         player->velocity.y = 0;
       }
     }
@@ -148,7 +150,7 @@ void jump(Entity *player)
   player->velocity.y = player->jumpSpeed;
 }
 
-void playerMovement(Entity *player, float delta, Entity *tiles[])
+void playerMovement(Entity *player, float delta, Entity tiles[])
 {
   if (IsKeyDown(KEY_A))
   {
