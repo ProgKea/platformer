@@ -28,15 +28,10 @@ void renderEntity(Entity entity)
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
 
-void renderEntities(Entity **entities, int count)
+void renderEntities(Entity *entities, int count)
 {
   for (int i = 0; i<count; i++)
   {
-    renderEntity(*entities[i]);
+    renderEntity(entities[i]);
   }
-}
-
-void unloadEntities(Entity *entities, int count)
-{
-  MemFree(entities);
 }

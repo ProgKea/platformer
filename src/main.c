@@ -17,7 +17,7 @@ int main(void)
   tileset_32x32.rows = 4*3;
   tileset_32x32.columns = 2*3;
 
-  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){1,0}, (Vector2){0,0});
+  Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){7,0}, (Vector2){0,0});
 
   Entity *tiles = MemAlloc(sizeof(Entity) * tileLimit);
   Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
@@ -37,6 +37,10 @@ int main(void)
       placeBlock(tiles, grassBlock, (Vector2){GetMouseX()/32*32, GetMouseY()/32*32});
     }
     if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+    {
+      removeBlock(tiles, (Vector2){GetMouseX()/32*32, GetMouseY()/32*32});
+    }
+    if (IsKeyDown(KEY_J))
     {
       player.position = GetMousePosition();
       player.velocity.y = 0;
@@ -63,8 +67,14 @@ int main(void)
     EndDrawing();
   }
 
-  unloadEntities(entities, entityCount);
-  unloadEntities(tiles, tileCount);
+  if (tiles != NULL)
+  {
+    MemFree(tiles);
+  }
+  if (entities != NULL)
+  {
+    MemFree(entities);
+  }
   unloadAnimationTextures(*animationTextures);
 
   CloseWindow();

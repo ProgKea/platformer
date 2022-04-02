@@ -13,9 +13,9 @@ This game was written in C using the raylib library.
   - [X] logic
 - [X] simple Map editor
   - [ ] make it infinite
-  - [ ] fix bug where you are only able to place the blocks from right to left
-  - [ ] add funtion to delete single blocks
-- [ ] Player Attack
+  - [X] fix bug where you are only able to place the blocks from right to left
+  - [X] add funtion to delete single blocks
+  - [ ] save and read map
 - [ ] Windows support
 - [ ] better player hitbox
 - [X] create dynamic array

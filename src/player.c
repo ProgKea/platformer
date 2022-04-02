@@ -99,7 +99,10 @@ void horizontalMovementCollision(Entity *player, float delta, Entity tiles[])
         player->position.x = tiles[i].position.x + tiles[i].rect.width;
       }
       player->velocity.x = 0;
-      player->velocity.y /= 1.25;
+      if (player->velocity.y > 0)
+      {
+        player->velocity.y /= 1.25;
+      }
       player->allowedToJump = true;
     }
   }

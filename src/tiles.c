@@ -27,12 +27,9 @@ Entity createTile(Tileset tileset, int blockScale, Vector2 target_block, Vector2
 
 bool blockPosExists(Entity blockArray[], int length, Vector2 srcPos)
 {
-  for (int i = 0; i<length; i++)
+  for (int i = 0; i < length; i++)
   {
-    if (CheckCollisionPointRec(srcPos, 
-          (Rectangle){
-          blockArray[i].position.x, blockArray[i].position.y,
-          blockArray[i].rect.width, blockArray[i].rect.height}))
+    if (blockArray[i].position.x == srcPos.x && blockArray[i].position.y == srcPos.y)
     {
       return true;
     }
@@ -42,11 +39,36 @@ bool blockPosExists(Entity blockArray[], int length, Vector2 srcPos)
 
 void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition)
 {
+  if (tileCount+1 >= tileLimit && tileArray != NULL)
+  {
+    // reallocate memory wihout losing the old data and without double free error
+    Entity *newTileArray = MemAlloc(sizeof(Entity) * tileLimit * 2);
+    for (int i = 0; i < tileLimit; i++)
+    {
+      newTileArray[i] = tileArray[i];
+    }
+    MemFree(tileArray);
+    tileArray = newTileArray;
+    tileLimit *= 2;
+  }
   if (!blockPosExists(tileArray, tileCount, targetPosition) && !(tileCount >= tileLimit))
   {
     tile.position = targetPosition;
     tileArray[tileCount] = tile;
     tileCount++;
+  }
+}
+
+void removeBlock(Entity *tileArray, Vector2 targetPosition)
+{
+  for (int i = 0; i < tileCount; i++)
+  {
+    if (tileArray[i].position.x == targetPosition.x && tileArray[i].position.y == targetPosition.y)
+    {
+      tileArray[i] = tileArray[tileCount-1];
+      tileCount--;
+      break;
+    }
   }
 }
 
