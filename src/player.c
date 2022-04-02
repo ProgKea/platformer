@@ -67,6 +67,12 @@ Entity createPlayer()
   player.rect.width = (float)player.texture.width / player.frames;
   player.rect.height = (float)player.texture.height;
 
+  player.camera = (Camera2D){ 0 };
+  player.camera.target = (Vector2){player.position.x+20, player.position.y+20};
+  player.camera.offset = (Vector2){1200.0f/2, 600.0f/2};
+  player.camera.rotation = 0.0f;
+  player.camera.zoom = 1.0f;
+
   player.animSpeed = Idle.speed;
 
   player.isFlipped = false;
@@ -186,6 +192,7 @@ void playerMovement(Entity *player, float delta, Entity tiles[])
       player->allowedToDoubleJump = false;
     }
   }
+  player->camera.target = (Vector2){player->position.x+20, player->position.y+20};
   horizontalMovementCollision(player, delta, tiles);
   verticalMovementCollision(player, delta, tiles);
 }

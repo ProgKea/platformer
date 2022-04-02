@@ -1,7 +1,4 @@
-#include "entity.h"
 #include "header.h"
-#include <raylib.h>
-#include <stdio.h>
 
 const int width = 1200;
 const int height = 620;
@@ -9,7 +6,6 @@ const int height = 620;
 int main(void)
 {
   InitWindow(width, height, "Platformer");
-  SetConfigFlags(FLAG_VSYNC_HINT);
 
   Entity player = createPlayer();
 
@@ -19,8 +15,8 @@ int main(void)
   tileset_32x32.columns = 2*3;
 
   Entity grassBlock = createTile(tileset_32x32, 1, (Vector2){7,0}, (Vector2){0,0});
-
   Entity *tiles = MemAlloc(sizeof(Entity) * tileLimit);
+
   Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
   entities[0] = player;
 
@@ -43,7 +39,6 @@ int main(void)
     }
     if (IsKeyDown(KEY_J))
     {
-      player.position = GetMousePosition();
       player.velocity.y = 0;
     }
     if (IsKeyPressed(KEY_R))
@@ -54,11 +49,12 @@ int main(void)
     }
 
     BeginDrawing();
+    ClearBackground((Color){24, 24, 24, 255});
 
-    ClearBackground(BLACK);
-
-    renderEntity(player);
-    renderEntities(tiles, tileCount);
+    BeginMode2D(player.camera);
+      renderEntity(player);
+      renderEntities(tiles, tileCount);
+    EndMode2D();
 
     DrawFPS(10, 10);
     EndDrawing();

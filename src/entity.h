@@ -11,6 +11,7 @@ typedef struct Entity {
   Vector2 position;
   Texture2D texture;
   Rectangle rect;
+  Camera2D camera;
 
   int frames;
   int animSpeed;
