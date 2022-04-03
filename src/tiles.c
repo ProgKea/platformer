@@ -39,18 +39,18 @@ bool blockPosExists(Entity blockArray[], int length, Vector2 srcPos)
 
 void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition)
 {
-  if (tileCount+1 >= tileLimit && tileArray != NULL)
-  {
-    // reallocate memory wihout losing the old data and without double free error
-    Entity *newTileArray = MemAlloc(sizeof(Entity) * tileLimit * 2);
-    for (int i = 0; i < tileLimit; i++)
-    {
-      newTileArray[i] = tileArray[i];
-    }
-    MemFree(tileArray);
-    tileArray = newTileArray;
-    tileLimit *= 2;
-  }
+  //if (tileCount+1 >= tileLimit && tileArray != NULL)
+  //{
+    //// reallocate memory wihout losing the old data and without double free error
+    //Entity *newTileArray = MemAlloc(sizeof(Entity) * tileLimit * 2);
+    //for (int i = 0; i < tileLimit; i++)
+    //{
+      //newTileArray[i] = tileArray[i];
+    //}
+    //MemFree(tileArray);
+    //tileArray = newTileArray;
+    //tileLimit *= 2;
+  //}
   if (!blockPosExists(tileArray, tileCount, targetPosition) && !(tileCount >= tileLimit))
   {
     tile.position = targetPosition;

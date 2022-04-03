@@ -68,8 +68,8 @@ Entity createPlayer()
   player.rect.height = (float)player.texture.height;
 
   player.camera = (Camera2D){ 0 };
-  player.camera.target = (Vector2){player.position.x+20, player.position.y+20};
-  player.camera.offset = (Vector2){1200.0f/2, 600.0f/2};
+  player.camera.target = (Vector2){player.position.x, player.position.y};
+  player.camera.offset = (Vector2){1200.0f/2, 620.0f/2};
   player.camera.rotation = 0.0f;
   player.camera.zoom = 1.0f;
 
@@ -77,6 +77,8 @@ Entity createPlayer()
 
   player.isFlipped = false;
   player.drawDebugLines = false;
+  player.noclip = false;
+  player.noclipSpeed = 1000.0f;
 
   entityCount++;
 
@@ -161,38 +163,61 @@ void jump(Entity *player)
 
 void playerMovement(Entity *player, float delta, Entity tiles[])
 {
-  if (IsKeyDown(KEY_A))
+  if (!player->noclip)
   {
-    player->velocity.x = -player->moveSpeed;
-    player->isFlipped = true;
-    changeAnimation(player, Walk);
-  }
-  else if (IsKeyDown(KEY_D))
-  {
-    player->velocity.x = player->moveSpeed;
-    player->isFlipped = false;
-    changeAnimation(player, Walk);
-  }
-  else
-  {
-    player->velocity.x = 0.0f;
-    changeAnimation(player, Idle);
-  }
-  if (IsKeyPressed(KEY_SPACE) && (player->allowedToJump || player->allowedToDoubleJump))
-  {
-    if (player->allowedToJump)
+    if (IsKeyDown(KEY_A))
     {
-      jump(player);
-      player->allowedToJump = false;
-      player->allowedToDoubleJump = true;
+      player->velocity.x = -player->moveSpeed;
+      player->isFlipped = true;
+      changeAnimation(player, Walk);
     }
-    else if (player->allowedToDoubleJump)
+    else if (IsKeyDown(KEY_D))
     {
-      jump(player);
-      player->allowedToDoubleJump = false;
+      player->velocity.x = player->moveSpeed;
+      player->isFlipped = false;
+      changeAnimation(player, Walk);
     }
+    else
+    {
+      player->velocity.x = 0.0f;
+      changeAnimation(player, Idle);
+    }
+    if (IsKeyPressed(KEY_SPACE) && (player->allowedToJump || player->allowedToDoubleJump))
+    {
+      if (player->allowedToJump)
+      {
+        jump(player);
+        player->allowedToJump = false;
+        player->allowedToDoubleJump = true;
+      }
+      else if (player->allowedToDoubleJump)
+      {
+        jump(player);
+        player->allowedToDoubleJump = false;
+      }
+    }
+    player->camera.target = (Vector2){player->position.x, player->position.y};
+    horizontalMovementCollision(player, delta, tiles);
+    verticalMovementCollision(player, delta, tiles);
   }
-  player->camera.target = (Vector2){player->position.x+20, player->position.y+20};
-  horizontalMovementCollision(player, delta, tiles);
-  verticalMovementCollision(player, delta, tiles);
+  else 
+  {
+    if (IsKeyDown(KEY_A))
+    {
+      player->position.x -= player->noclipSpeed * delta;
+    }
+    else if (IsKeyDown(KEY_D))
+    {
+      player->position.x += player->noclipSpeed * delta;
+    }
+    else if (IsKeyDown(KEY_W))
+    {
+      player->position.y -= player->noclipSpeed * delta;
+    }
+    else if (IsKeyDown(KEY_S))
+    {
+      player->position.y += player->noclipSpeed * delta;
+    }
+    player->camera.target = (Vector2){player->position.x, player->position.y};
+  }
 }

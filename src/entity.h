@@ -20,11 +20,13 @@ typedef struct Entity {
   float moveSpeed;
   float gravity;
   float jumpSpeed;
+  float noclipSpeed;
 
   bool isFlipped;
   bool allowedToJump;
   bool allowedToDoubleJump;
   bool drawDebugLines;
+  bool noclip;
 } Entity;
 
 void animate(Entity *entity);

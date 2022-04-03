@@ -2,6 +2,7 @@
 #define HEADER_H
 
 #include <raylib.h>
+#include <raymath.h>
 #include <stdlib.h>
 #include <stdio.h>
 
