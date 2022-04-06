@@ -25,29 +25,23 @@ int main(void)
   while (!WindowShouldClose())
   {
     float deltaTime = GetFrameTime();
-    Vector2 mousePos = (Vector2){GetMouseX()/32*32+player.camera.target.x-player.camera.offset.x, GetMouseY()/32*32+player.camera.target.y-player.camera.offset.y};
+    Vector2 mousePos = (Vector2){GetMouseX() + player.camera.target.x - player.camera.offset.x, GetMouseY() + player.camera.target.y - player.camera.offset.y};
+    Vector2 mousePosGrid = (Vector2){(int)(mousePos.x / 32) * 32, (int)(mousePos.y / 32) * 32};
 
     animate(&player);
     playerMovement(&player, deltaTime, tiles);
 
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
-      placeBlock(tiles, grassBlock, mousePos);
+      placeBlock(tiles, grassBlock, mousePosGrid);
     }
     if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
     {
-      removeBlock(tiles, mousePos);
-    }
-    if (IsKeyDown(KEY_J))
-    {
-      player.velocity.y = 0;
-      player.position = (Vector2){width/2, height/2};
+      removeBlock(tiles, mousePosGrid);
     }
     if (IsKeyPressed(KEY_R))
     {
-      MemFree(tiles);
-      tiles = MemAlloc(sizeof(Entity) * tileLimit);
-      tileCount = 0;
+      resetTiles(tiles);
     }
     if (IsKeyPressed(KEY_N))
     {

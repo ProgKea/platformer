@@ -83,3 +83,10 @@ void drawDebugGrid(int width, int height)
     DrawLine(0, i*32, width, i*32, BLACK);
   }
 }
+
+void resetTiles(Entity *tileArray)
+{
+  MemFree(tileArray);
+  tileArray = MemAlloc(sizeof(Entity) * tileLimit);
+  tileCount = 0;
+}

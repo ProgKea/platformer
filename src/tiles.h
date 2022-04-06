@@ -18,6 +18,7 @@ typedef struct Tileset {
 Entity createTile(Tileset tileset, float blockScale, Vector2 target_block, Vector2 position);
 void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition);
 void removeBlock(Entity *tileArray, Vector2 targetPosition);
+void resetTiles(Entity *tileArray);
 void drawDebugGrid(int width, int height);
 
 #endif
