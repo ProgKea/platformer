@@ -17,7 +17,9 @@ This game was written in C using the raylib library.
   - [X] add funtion to delete single blocks
   - [ ] save and read map
   - [ ] add option to change blocks
-  - [ ] fix camera bug (when trying to place blocks in the tile and the camera changes the blocks will go outside the grid)
+    - [ ] spikes
+    - [ ] blocks where you cant slide of
+  - [X] fix camera bug (when trying to place blocks in the tile and the camera changes the blocks will go outside the grid)
 - [X] add camera
 - [X] optimize performance
 - [ ] add animation for wall sliding
