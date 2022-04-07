@@ -165,16 +165,16 @@ void playerMovement(Entity *player, float delta, Entity tiles[])
 {
   if (!player->noclip)
   {
-    if (IsKeyDown(KEY_A))
-    {
-      player->velocity.x = -player->moveSpeed;
-      player->isFlipped = true;
-      changeAnimation(player, Walk);
-    }
-    else if (IsKeyDown(KEY_D))
+    if (IsKeyDown(KEY_D))
     {
       player->velocity.x = player->moveSpeed;
       player->isFlipped = false;
+      changeAnimation(player, Walk);
+    }
+    else if (IsKeyDown(KEY_A))
+    {
+      player->velocity.x = -player->moveSpeed;
+      player->isFlipped = true;
       changeAnimation(player, Walk);
     }
     else
@@ -206,15 +206,15 @@ void playerMovement(Entity *player, float delta, Entity tiles[])
     {
       player->position.x -= player->noclipSpeed * delta;
     }
-    else if (IsKeyDown(KEY_D))
+    if (IsKeyDown(KEY_D))
     {
       player->position.x += player->noclipSpeed * delta;
     }
-    else if (IsKeyDown(KEY_W))
+    if (IsKeyDown(KEY_W))
     {
       player->position.y -= player->noclipSpeed * delta;
     }
-    else if (IsKeyDown(KEY_S))
+    if (IsKeyDown(KEY_S))
     {
       player->position.y += player->noclipSpeed * delta;
     }

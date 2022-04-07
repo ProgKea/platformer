@@ -4,8 +4,10 @@
 
 int tileCount = 0;
 int tileLimit = 1000;
+int blockIndex = 0;
+int blockCount = 0;
 
-Entity createTile(Tileset tileset, float blockScale, Vector2 target_block, Vector2 position)
+void createTile(Tileset tileset, Entity *blockArray, float blockScale, Vector2 target_block, Vector2 position)
 {
   Entity tile;
 
@@ -19,10 +21,10 @@ Entity createTile(Tileset tileset, float blockScale, Vector2 target_block, Vecto
   tile.rect.height = (float)tile.texture.height / tileset.columns;
 
   tile.position = position;
-
   tile.isFlipped = false;
 
-  return tile;
+  blockArray[blockCount] = tile;
+  blockCount++;
 }
 
 bool blockPosExists(Entity blockArray[], int length, Vector2 srcPos)
@@ -89,4 +91,35 @@ void resetTiles(Entity *tileArray)
   MemFree(tileArray);
   tileArray = MemAlloc(sizeof(Entity) * tileLimit);
   tileCount = 0;
+}
+
+void tileControls(Entity *tileArray, Entity *blockArray, int blockArraySize, Vector2 position)
+{
+  if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+  {
+    placeBlock(tileArray, blockArray[blockIndex], position);
+  }
+  if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+  {
+    removeBlock(tileArray, position);
+  }
+  if (IsKeyPressed(KEY_R))
+  {
+    resetTiles(tileArray);
+  }
+  if (IsKeyPressed(KEY_RIGHT))
+  {
+    if (blockIndex < blockArraySize)
+    {
+      blockIndex++;
+    }
+  }
+  if (IsKeyPressed(KEY_LEFT))
+  {
+    if (blockIndex > 0)
+    {
+      blockIndex--;
+    }
+  }
+
 }

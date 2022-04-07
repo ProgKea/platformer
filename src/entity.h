@@ -31,6 +31,7 @@ typedef struct Entity {
 
 void animate(Entity *entity);
 void renderEntity(Entity entity);
+void renderEntityV(Entity entity, Vector2 position);
 void renderEntities(Entity *entities, int count);
 void unloadEntities(Entity *entities, int count);
 

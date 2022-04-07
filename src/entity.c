@@ -28,6 +28,12 @@ void renderEntity(Entity entity)
   DrawTextureRec(entity.texture, entity.rect, entity.position, WHITE);
 }
 
+void renderEntityV(Entity entity, Vector2 position)
+{
+  entity.position = position;
+  renderEntity(entity);
+}
+
 void renderEntities(Entity *entities, int count)
 {
   for (int i = 0; i<count; i++)

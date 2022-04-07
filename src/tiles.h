@@ -8,6 +8,8 @@
 
 extern int tileCount;
 extern int tileLimit;
+extern int blockIndex;
+extern int blockSize;
 
 typedef struct Tileset {
   Texture2D texture;
@@ -15,10 +17,11 @@ typedef struct Tileset {
   int columns;
 } Tileset;
 
-Entity createTile(Tileset tileset, float blockScale, Vector2 target_block, Vector2 position);
+void createTile(Tileset tileset, Entity *blockArray, float blockScale, Vector2 target_block, Vector2 position);
 void placeBlock(Entity *tileArray, Entity tile, Vector2 targetPosition);
 void removeBlock(Entity *tileArray, Vector2 targetPosition);
 void resetTiles(Entity *tileArray);
 void drawDebugGrid(int width, int height);
+void tileControls(Entity *tileArray, Entity *blockArray, int blockArraySize, Vector2 position);
 
 #endif
