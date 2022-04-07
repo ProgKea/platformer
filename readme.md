@@ -16,7 +16,7 @@ This game was written in C using the raylib library.
   - [X] fix bug where you are only able to place the blocks from right to left
   - [X] add funtion to delete single blocks
   - [ ] save and read map
-  - [ ] add option to change blocks
+  - [X] add option to change blocks
     - [ ] spikes
     - [ ] blocks where you cant slide of
   - [X] fix camera bug (when trying to place blocks in the tile and the camera changes the blocks will go outside the grid)
