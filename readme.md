@@ -1,4 +1,4 @@
-# [Insert Platformer name here]
+# Wallhugger
 
 This game was written in C using the raylib library.
 

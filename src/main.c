@@ -24,7 +24,7 @@ int main(void)
     }
   }
 
-  Entity *tiles = deserializeTiles("data/save/testing.sav");
+  Entity *tiles = deserializeTiles("data/save/level1.sav");
 
   Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
   entities[0] = player;
@@ -75,7 +75,7 @@ int main(void)
   }
   unloadAnimationTextures(*animationTextures);
 
-  serializeTiles(tiles, "data/save/testing.sav");
+  //serializeTiles(tiles, "data/save/level1.sav");
 
   CloseWindow();
   return 0;
