@@ -24,7 +24,7 @@ int main(void)
     }
   }
 
-  Entity *tiles = MemAlloc(sizeof(Entity) * tileLimit);
+  Entity *tiles = deserializeTiles("data/save/tiles.sav");
 
   Entity *entities = MemAlloc(sizeof(Entity) * entityCount);
   entities[0] = player;
@@ -47,11 +47,6 @@ int main(void)
     }
     if (IsKeyPressed(KEY_I))
     {
-      serializeTiles(tiles, "data/save/tiles.sav");
-    }
-    if (IsKeyPressed(KEY_L))
-    {
-      tiles = deserializeTiles("data/save/tiles.sav");
     }
 
     BeginDrawing();
@@ -79,6 +74,8 @@ int main(void)
     MemFree(entities);
   }
   unloadAnimationTextures(*animationTextures);
+
+  serializeTiles(tiles, "data/save/tiles.sav");
 
   CloseWindow();
   return 0;

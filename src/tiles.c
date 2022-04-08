@@ -137,8 +137,8 @@ void serializeTiles(Entity *tileArray, char *fileName)
 Entity *deserializeTiles(char *fileName)
 {
   FILE *file = fopen(fileName, "rb");
-  fread(&tileCount, sizeof(int), 1, file);
   Entity *tileArray = MemAlloc(sizeof(Entity) * tileLimit);
+  fread(&tileCount, sizeof(int), 1, file);
   for (int i = 0; i < tileCount; i++)
   {
     fread(&tileArray[i].position, sizeof(Vector2), 1, file);
