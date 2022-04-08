@@ -56,7 +56,7 @@ Entity createPlayer()
   player.position.y = 350.0f;
 
   player.velocity = (Vector2){0.0f, 0.0f};
-  player.moveSpeed = 250.0f;
+  player.moveSpeed = 350.0f;
   player.jumpSpeed = -400.0f;
   player.gravity = 16.0f;
 
