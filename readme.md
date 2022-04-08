@@ -20,6 +20,8 @@ This game was written in C using the raylib library.
     - [ ] spikes
     - [ ] blocks where you cant slide of
   - [X] fix camera bug (when trying to place blocks in the tile and the camera changes the blocks will go outside the grid)
+  - [ ] add copy and pasting
+  - [ ] add undo and redo feature
 - [X] add camera
 - [X] optimize performance
 - [ ] add animation for wall sliding
@@ -27,5 +29,6 @@ This game was written in C using the raylib library.
 - [ ] better player hitbox
 - [X] create dynamic array
 - [X] add noclip for debugging
+- [ ] add cmake
 
 # Deadline: April 17 2022
