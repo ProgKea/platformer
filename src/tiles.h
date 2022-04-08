@@ -11,6 +11,8 @@ extern int tileLimit;
 extern int blockIndex;
 extern int blockSize;
 
+extern bool save;
+
 typedef struct Tileset {
   Texture2D texture;
   int rows;
@@ -23,5 +25,7 @@ void removeBlock(Entity *tileArray, Vector2 targetPosition);
 void resetTiles(Entity *tileArray);
 void drawDebugGrid(int width, int height);
 void tileControls(Entity *tileArray, Entity *blockArray, int blockArraySize, Vector2 position);
+void serializeTiles(Entity *tileArray, char *fileName);
+Entity *deserializeTiles(char *fileName);
 
 #endif

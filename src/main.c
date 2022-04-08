@@ -1,4 +1,5 @@
 #include "header.h"
+#include "tiles.h"
 
 const int width = 1200;
 const int height = 620;
@@ -43,6 +44,14 @@ int main(void)
     if (IsKeyPressed(KEY_N))
     {
       player.noclip = !player.noclip ? true : false;
+    }
+    if (IsKeyPressed(KEY_I))
+    {
+      serializeTiles(tiles, "data/save/tiles.sav");
+    }
+    if (IsKeyPressed(KEY_L))
+    {
+      tiles = deserializeTiles("data/save/tiles.sav");
     }
 
     BeginDrawing();

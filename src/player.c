@@ -2,8 +2,6 @@
 #include "entity.h"
 #include "animation.h"
 #include "tiles.h"
-#include <stdio.h>
-#include <raylib.h>
 
 animationTexture Idle;
 animationTexture Walk;
@@ -221,3 +219,4 @@ void playerMovement(Entity *player, float delta, Entity tiles[])
     player->camera.target = (Vector2){player->position.x, player->position.y};
   }
 }
+

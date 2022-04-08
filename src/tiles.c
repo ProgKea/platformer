@@ -1,6 +1,4 @@
 #include "tiles.h"
-#include <raylib.h>
-#include <stdbool.h>
 
 int tileCount = 0;
 int tileLimit = 1000;
@@ -121,5 +119,32 @@ void tileControls(Entity *tileArray, Entity *blockArray, int blockArraySize, Vec
       blockIndex--;
     }
   }
+}
 
+void serializeTiles(Entity *tileArray, char *fileName)
+{
+  FILE *file = fopen(fileName, "wb");
+  fwrite(&tileCount, sizeof(int), 1, file);
+  for (int i = 0; i < tileCount; i++)
+  {
+    fwrite(&tileArray[i].position, sizeof(Vector2), 1, file);
+    fwrite(&tileArray[i].rect, sizeof(Rectangle), 1, file);
+    fwrite(&tileArray[i].texture, sizeof(Texture), 1, file);
+  }
+  fclose(file);
+}
+
+Entity *deserializeTiles(char *fileName)
+{
+  FILE *file = fopen(fileName, "rb");
+  fread(&tileCount, sizeof(int), 1, file);
+  Entity *tileArray = MemAlloc(sizeof(Entity) * tileLimit);
+  for (int i = 0; i < tileCount; i++)
+  {
+    fread(&tileArray[i].position, sizeof(Vector2), 1, file);
+    fread(&tileArray[i].rect, sizeof(Rectangle), 1, file);
+    fread(&tileArray[i].texture, sizeof(Texture), 1, file);
+  }
+  fclose(file);
+  return tileArray;
 }
