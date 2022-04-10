@@ -47,6 +47,10 @@ int main(void)
     }
     if (IsKeyPressed(KEY_I))
     {
+      player.position.x = 600.0f;
+      player.position.y = 600.0f;
+      player.velocity.x = 0.0f;
+      player.velocity.y = 0.0f;
     }
 
     BeginDrawing();

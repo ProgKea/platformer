@@ -53,7 +53,7 @@ Entity createPlayer()
   player.texture = Idle.texture;
 
   player.position.x = 600.0f;
-  player.position.y = 350.0f;
+  player.position.y = 600.0f;
 
   player.velocity = (Vector2){0.0f, 0.0f};
   player.moveSpeed = 350.0f;
